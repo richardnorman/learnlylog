@@ -1,0 +1,80 @@
+.messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 5px;
+
+    overflow: auto;
+    overflow-x: hidden;
+    position: absolute;
+    bottom: 50px;
+    width: 100vw;
+    max-height: 100%;
+}
+
+
+
+.chat-message {
+    margin: 6px 4px;
+
+    /* padding: 0.5rem 1rem; */
+    min-width: 98vw !important;
+    display: block;
+    /* height: fit-content; */
+}
+
+.chat-chip {
+    height: auto !important;
+    /* min-height: 32px; */
+    padding: 10px !important;
+}
+
+.message-right {
+    text-align: end;
+    padding-right: 10px;
+
+}
+
+.MuiChip-label {
+    text-align: left;
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    max-width: 75vw;
+    min-height: fit-content;
+}
+
+
+.chat-form {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.25rem;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    height: 50px;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+.chat-input {
+    border: none;
+    padding: 0 1rem;
+    flex-grow: 1;
+    border-radius: 2rem;
+    margin: 0.25rem;
+}
+
+
+.chat-input:focus {
+    outline: none;
+}
+
+.chat-form>button {
+    background: #333;
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #fff;
+}
