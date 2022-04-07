@@ -1,15 +1,13 @@
-import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
+import * as React from "react";
+import { AppBar, Toolbar, Button, Typography, IconButton } from "@material-ui/core";
+import { AccountCircle, CalendarToday, ExitToApp, Chat } from '@material-ui/icons';
 import { WelcomePage } from "./WelcomePage";
 import { TodoItemsPage } from "./TodoItemsPage";
 import { RealmAppProvider, useRealmApp } from "./RealmApp";
 import { ThemeProvider } from "./Theme";
 import { AppName } from "./AppName";
 import { appId } from "../realm.json";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import { Routes, Route, Link } from "react-router-dom";
 import AccountPage from '../pages/Account/AccountPage';
 import AllCoursesPage from '../pages/AllCourses/AllCoursesPage';
 import ChatPage from '../pages/Chat/ChatPage';
@@ -34,64 +32,58 @@ export default function AppWithRealm() {
 function App() {
   const { currentUser, logOut } = useRealmApp();
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/learnlylog'>
-          <HomePage />
-        </Route>
-        <Route path='/learnlylog/chat'>
-          <ChatPage />
-        </Route>
-        <Route path='/learnlylog/course-modules'>
-          <CourseModulesPage />
-        </Route>
-        <Route path='/learnlylog/module-quiz'>
-          <ModuleQuizPage />
-        </Route>
-        <Route path='/learnlylog/account'>
-          <AccountPage />
-        </Route>
-        <Route exact path='/learnlylog/all-courses'>
-          <AllCoursesPage />
-        </Route>
-        <Route path='/learnlylog/interests'>
-          <InterestsPage />
-        </Route>
-        <Route path='/learnlylog/module'>
-          <ModulePage />
-        </Route>
-        <Route path='/learnlylog/sign-in'>
-          <TodoItemsPage />
-        </Route>
-        <Route path='/learnlylog/register'>
-          <WelcomePage />
-        </Route>
-        <Route path='/learnlylog/log'>
-          <LearningLogPage />
-        </Route>
-      </Switch>
-    </Router>
-    //<div className="App">
-    //  <AppBar position="sticky">
-    //    <Toolbar>
-    //      <AppName />
-    //      {currentUser ? (
-    //        <Button
-    //          variant="contained"
-    //          color="secondary"
-    //          onClick={async () => {
-    //            await logOut();
-    //          }}
-    //        >
-    //          <Typography variant="button">Log Out</Typography>
-    //        </Button>
-    //      ) : null}
-    //    </Toolbar>
-    //  </AppBar>
-    //  {currentUser ? <TodoItemsPage /> : 
-    //    <Link to="/home">Home</Link>
-    //  }
-//
-   // </div>
+    <div className="App">
+      <AppBar position="sticky">
+        <Toolbar>
+          <AppName />
+          {currentUser ? (
+            <div>
+              <Link to="/chat">
+                <IconButton color="secondary" aria-label="delete" size="large">
+                  <Chat />
+                </IconButton>
+              </Link>
+              <Link to="/learning-log">
+                <IconButton color="secondary" aria-label="delete" size="large">
+                  <CalendarToday />
+                </IconButton>
+              </Link>
+              <Link to="/account">
+                <IconButton color="secondary" aria-label="delete" size="large">
+                  <AccountCircle />
+                </IconButton>
+              </Link>
+              
+              <IconButton
+                variant="contained"
+                color="secondary"
+                onClick={async () => {
+                  await logOut();
+                  window.location.assign("/");
+                }}
+              >
+                <ExitToApp />
+              </IconButton>
+            </div>
+          ) : null}
+        </Toolbar>
+      </AppBar>
+      {currentUser ? (
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/course-modules" element={<CourseModulesPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/all-courses" element={<AllCoursesPage />} />
+          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/interests" element={<InterestsPage />} />
+          <Route path="/learning-log" element={<LearningLogPage />} />
+          <Route path="/module" element={<ModulePage />} />
+          <Route path="/module-quiz" element={<ModuleQuizPage />} />
+        </Routes>
+      ) :
+        // sign in/register
+        <WelcomePage />
+      }
+    </div>
   );
 }

@@ -3,7 +3,9 @@
   margin: 0;
   background: white;
   height: 100vh;
+  width: 100%;
   overflow-y: scroll;
+
 }
 
 .App-logo {
@@ -55,4 +57,11 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+
+.join-chat-btn {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }
