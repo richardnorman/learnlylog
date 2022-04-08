@@ -22,6 +22,7 @@ const port = 3000
 app.use(express.static('../frontend/build'));
 
 const users = {};
+const chatLog = [];
 
 io.on("connection", (socket) => {
     console.log("a client connected");
@@ -31,29 +32,55 @@ io.on("connection", (socket) => {
             name: user.profile.data.email,
             id: user.id
         };
+        let msg = {
+            content: `${users[user.id].name.split("@")[0]} has joined the chat.`,
+            user: {
+                id: null,
+                name: "SERVER"
+            },
+            time: Date.now()
+        }
+        io.emit("chat message", msg);
+        chatLog.forEach(m => socket.emit("chat message", m));
+        // socket.emit("chat log", chatLog);
     });
 
-    setInterval(() => {
-        socket.emit("chat message", {
-            time: Date.now(),
-            user: {
-                id: "",
-                name: ""
-            },
-            content: "test form server"
-        })
-    }, 5000);
+    // for testing purposes
+    // setInterval(() => {
+    //     let msg = {
+    //         time: Date.now(),
+    //         user: {
+    //             id: "",
+    //             name: ""
+    //         },
+    //         content: "test form server"
+    //     };
+    //     socket.emit("chat message", msg);
+    //     chatLog.push(msg);
+
+    // }, 5000);
 
     socket.on("chat message", (data) => {
-        socket.emit("chat message", {
+        let msg = {
             time: Date.now(),
             user: users[data.user.id],
             content: data.content
-        })
+        }
+        io.emit("chat message", msg);
+        chatLog.push(msg);
     });
 
     socket.on("leave chat", (user) => {
-
+        let msg = {
+            content: `${users[user.id].name.split("@")[0]} has left the chat.`,
+            user: {
+                id: null,
+                name: "SERVER"
+            },
+            time: Date.now()
+        }
+        io.emit("chat message", msg);
+        delete users[user.id];
     });
 
 });
