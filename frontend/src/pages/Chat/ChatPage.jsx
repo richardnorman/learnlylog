@@ -4,39 +4,41 @@ import { useRealmApp } from "../../components/RealmApp";
 import { Chip } from "@material-ui/core";
 import "./Chat.css";
 
+let socket = null;
+
 export default function ChatPage() {
     const { currentUser } = useRealmApp();
     const [messages, setMessages] = useState([]);
-    const [msg, setMsg] = useState("");
-    const [socket, setSocket] = useState(null);
+    const [msgInput, setMsgInput] = useState("");
+    // const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const connection = socketIOClient(window.location.origin, { transports: ['websocket']})
-        setSocket(connection);
-
-        connection.emit("join chat", currentUser);
-        connection.on("chat message", (data) => {
+        if (socket == null) {
+            socket = socketIOClient(window.location.origin, { transports: ['websocket']});
+        } 
+        socket.emit("join chat", currentUser);
+        socket.on("chat message", (data) => {
             let temp = messages;
             temp.push(data)
             setMessages([...temp]);
             const el = document.getElementById('chat-feed');
             el.scrollTop = el.scrollHeight;
         });
-
         return () => {
-            connection.emit("leave chat", currentUser);
+            socket.emit("leave chat", currentUser);
+            socket.off("chat message");
         }
 
     }, []);
 
     const sendMessage = (event) => {
         event.preventDefault();
-        if (msg) {
+        if (msgInput) {
             socket.emit("chat message", {
-                content: msg,
+                content: msgInput,
                 user: currentUser
             });
-            setMsg("");
+            setMsgInput("");
         }
     }
 
@@ -48,7 +50,6 @@ export default function ChatPage() {
                         if (msg.user.id == currentUser.id) {
                             return (
                                 <div className="chat-message message-right">
-                                    <small>{ msg.user.name.split('@')[0] }</small><br/>
                                     <Chip className="chat-chip" color="primary" label={ msg.content }/><br/>
                                     <small>{ new Date(msg.time).toLocaleTimeString() }</small>
                                 </div>
@@ -66,7 +67,7 @@ export default function ChatPage() {
                 }
             </div>
             <form className="chat-form" action="" onSubmit={sendMessage}>
-                <input className="chat-input" autocomplete="off" placeholder="Type to chat with others..." value={msg} onChange={e => setMsg(e.target.value)}/><button>Send</button>
+                <input className="chat-input" autocomplete="off" placeholder="Type to chat with others..." value={msgInput} onChange={e => setMsgInput(e.target.value)}/><button>Send</button>
             </form>
         </div>
         
