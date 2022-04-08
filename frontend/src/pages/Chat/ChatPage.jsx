@@ -54,6 +54,12 @@ export default function ChatPage() {
                                     <small>{ new Date(msg.time).toLocaleTimeString() }</small>
                                 </div>
                             );
+                        } else if (msg.user.id == null && msg.user.name == "SERVER") {
+                           return (
+                                <div className="chat-message" style={{textAlign: "center"}}>
+                                    { msg.content }
+                                </div>
+                           ); 
                         } else {
                             return (
                                 <div className="chat-message">
