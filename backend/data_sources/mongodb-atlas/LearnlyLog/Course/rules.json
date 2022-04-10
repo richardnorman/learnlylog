@@ -1,0 +1,22 @@
+{
+    "collection": "Course",
+    "database": "LearnlyLog",
+    "roles": [
+        {
+            "name": "default",
+            "apply_when": {},
+            "fields": {
+                "_id": {},
+                "description": {},
+                "image": {},
+                "name": {}
+            },
+            "read": true,
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "collection": "User",
+    "database": "LearnlyLog",
+    "roles": [
+        {
+            "name": "owner",
+            "apply_when": {
+                "Id": "%%user.id"
+            },
+            "fields": {
+                "_id": {},
+                "courses": {}
+            },
+            "read": true,
+            "write": true,
+            "insert": true,
+            "delete": true,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}
