@@ -1,0 +1,8 @@
+.quiz-container {
+    height: 100%;
+}
+
+.submit-button {
+    width: 40%;
+    margin: 2rem 30% !important;
+}
