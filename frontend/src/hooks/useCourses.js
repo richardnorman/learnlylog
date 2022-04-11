@@ -26,6 +26,8 @@ export function useCourses() {
         });
     }, [courseCollection]);
 
+    
+
     return {
         loading,
         courses

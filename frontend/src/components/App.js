@@ -71,7 +71,7 @@ function App() {
       {currentUser ? (
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/course-modules" element={<CourseModulesPage />} />
+          <Route path="/course-modules/:id" element={<CourseModulesPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/all-courses" element={<AllCoursesPage />} />
           <Route path="/chat" element={<ChatPage />} />
