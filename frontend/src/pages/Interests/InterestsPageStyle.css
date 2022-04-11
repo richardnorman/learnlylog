@@ -27,7 +27,8 @@ color: rgba(0, 0, 0, 0.87);
 }
 
 .h2container{
-    margin: 100px;
+    margin: 70px;
+    overflow: hidden;
 }
 
 .CardsContainer{
@@ -35,4 +36,5 @@ color: rgba(0, 0, 0, 0.87);
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
 }
