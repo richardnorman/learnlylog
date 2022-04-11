@@ -77,7 +77,7 @@ function App() {
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/interests" element={<InterestsPage />} />
           <Route path="/learning-log" element={<LearningLogPage />} />
-          <Route path="/module" element={<ModulePage />} />
+          <Route path="/module/:id" element={<ModulePage />} />
           <Route path="/module-quiz" element={<ModuleQuizPage />} />
         </Routes>
       ) :

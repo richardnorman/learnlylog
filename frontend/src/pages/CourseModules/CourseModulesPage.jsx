@@ -3,6 +3,7 @@ import { useCourses } from "../../hooks/useCourses";
 import { useModules } from "../../hooks/useModules";
 import { Card, Grid, Typography, Container, CardMedia, CardContent, Button, CardActions } from "@material-ui/core";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./CourseModulesPage.css";
 import { useCourseEnrollment } from "../../hooks/useCourseEnrollment";
 
@@ -61,7 +62,7 @@ export default function CourseModulesPage() {
                             <CardMedia
                                 component="img"
                                 height="200"
-                                image="https://source.unsplash.com/random"
+                                image={`https://source.unsplash.com/random/?${course?.name}`}
                                 alt="random"
                             />
                             <CardContent sx={{ flexGrow: 1 }}>
@@ -73,8 +74,12 @@ export default function CourseModulesPage() {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button size="small">View</Button>
-                                <Button size="small">Take Quiz</Button>
+                                <Link to={`/module/${card._id}`}>
+                                    <Button size="small">View</Button>
+                                </Link>
+                                <Link to="/module-quiz">
+                                    <Button size="small">Take Quiz</Button>
+                                </Link>
                             </CardActions>
                         </Card>
                     </Grid>

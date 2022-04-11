@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button from '@material-ui/core/Button';
+import { Button, Container } from '@material-ui/core';
 import './ModuleQuizPage.css';
 import QuestionCard from './QuestionCard';
 
@@ -51,10 +51,11 @@ const DisplayQuizQuestions = props => {
 
 export default function ModuleQuizPage() {
     return (
-        <div className='quiz-container'>
+        <Container className='quiz-container'>
             <h1>Module Quiz</h1>
+            <p>You must score 75% or higher to pass.</p>
             <DisplayQuizQuestions />
             <Button /*onClick={handler}*/ className='submit-button' variant='contained' size='large' color='primary'>SUBMIT</Button>
-        </div>
+        </Container>
     );
 }

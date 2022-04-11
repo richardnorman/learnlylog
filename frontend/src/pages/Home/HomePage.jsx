@@ -72,10 +72,12 @@ export default function HomePage() {
             </div>
             <div id='all-courses-heading-content'>
                 <h2>All Courses</h2>
-                <p onClick={() => { alert("Display more courses!") }} style={{ marginRight: 20, cursor: 'pointer' }}><b>MORE COURSES &gt;</b></p>
+                <Link to="/all-courses">
+                    <p style={{ marginRight: 20, cursor: 'pointer' }}><b>MORE COURSES &gt;</b></p>
+                </Link>
             </div>
             <div className='all-courses-content'>
-                <DisplayCourses courses={courses.filter(c => !isEnrolled(c._id))} isEnrolled={false} />
+                <DisplayCourses courses={courses.filter(c => !isEnrolled(c._id)).slice(0, 7)} isEnrolled={false} />
             </div>
             <Link to="/chat">
                 <Fab color='primary' className='chat-button' variant="extended">
