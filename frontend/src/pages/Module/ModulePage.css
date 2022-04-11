@@ -1,0 +1,38 @@
+nav {
+    margin: 20px;
+}
+
+.takeQuizButton {
+border-radius: 50;
+position:absolute;
+right:    5;
+bottom:   5;
+}
+/* 
+.modulePageHeadStyle {
+     Auto layout 
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+padding: 0px;
+
+position: static;
+width: 807px;
+left: calc(50% - 807px/2);
+top: 0%;
+bottom: 68.93%;
+
+ Iris/100 
+
+background: #5D5FEF;
+
+ Inside auto layout 
+
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+margin: 0px 0px;
+} */
