@@ -1,0 +1,23 @@
+{
+    "collection": "CourseEnrollment",
+    "database": "LearnlyLog",
+    "roles": [
+        {
+            "name": "owner",
+            "apply_when": {
+                "_partition": "%%user.id"
+            },
+            "fields": {
+                "_partition": {},
+                "completionDate": {},
+                "courseId": {},
+                "startDate": {}
+            },
+            "write": true,
+            "insert": true,
+            "delete": true,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}

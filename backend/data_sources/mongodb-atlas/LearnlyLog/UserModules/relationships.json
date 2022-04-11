@@ -1,0 +1,8 @@
+{
+    "moduleId": {
+        "ref": "#/relationship/mongodb-atlas/LearnlyLog/Module",
+        "source_key": "moduleId",
+        "foreign_key": "_id",
+        "is_list": false
+    }
+}

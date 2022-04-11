@@ -1,0 +1,20 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "content": {
+            "bsonType": "string"
+        },
+        "courseId": {
+            "bsonType": "objectId"
+        },
+        "description": {
+            "bsonType": "string"
+        },
+        "name": {
+            "bsonType": "string"
+        }
+    },
+    "title": "Module"
+}

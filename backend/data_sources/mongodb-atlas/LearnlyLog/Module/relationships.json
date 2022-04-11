@@ -1,0 +1,8 @@
+{
+    "courseId": {
+        "ref": "#/relationship/mongodb-atlas/LearnlyLog/Course",
+        "source_key": "courseId",
+        "foreign_key": "_id",
+        "is_list": false
+    }
+}

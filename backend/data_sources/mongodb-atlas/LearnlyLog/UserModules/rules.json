@@ -1,0 +1,22 @@
+{
+    "collection": "UserModules",
+    "database": "LearnlyLog",
+    "roles": [
+        {
+            "name": "owner",
+            "apply_when": {
+                "_partition": "%%user.id"
+            },
+            "fields": {
+                "bestScore": {},
+                "lastAttempt": {}
+            },
+            "read": true,
+            "write": true,
+            "insert": true,
+            "delete": true,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}
