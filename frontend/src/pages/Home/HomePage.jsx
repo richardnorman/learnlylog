@@ -13,67 +13,16 @@ import { useCourses } from "../../hooks/useCourses";
 import './HomePage.css';
 import { useCourseEnrollment } from '../../hooks/useCourseEnrollment';
 
-// let courses = [
-//     {
-//         CourseName: "Hiking",
-//         CourseImage: "https://images.theconversation.com/files/405661/original/file-20210610-18-imwshy.jpg?ixlib=rb-1.1.0&rect=6%2C0%2C4486%2C2997&q=45&auto=format&w=926&fit=clip",
-//         IsTakingCourse: true,
-//         CourseProgress: 75,
-//         CourseID: 1
-//     },
-//     {
-//         CourseName: "Boating",
-//         CourseImage: "https://images.unsplash.com/photo-1520255870062-bd79d3865de7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Ym9hdGluZ3xlbnwwfHwwfHw%3D&w=1000&q=80",
-//         IsTakingCourse: true,
-//         CourseProgress: 30,
-//         CourseID: 2
-//     },
-//     {
-//         CourseName: "Farming",
-//         CourseImage: "https://i.natgeofe.com/n/748f1c42-0d8b-498e-85fd-88151c6f863b/01_organic_farming_i8860_20181003_11260.jpg",
-//         IsTakingCourse: true,
-//         CourseProgress: 10,
-//         CourseID: 3
-//     },
-//     {
-//         CourseName: "Planets",
-//         CourseImage: "https://i.natgeofe.com/k/d6f301e9-0c90-4379-9a64-1e1e9b048419/planetary-lineup_3x2.jpg",
-//         IsTakingCourse: true,
-//         CourseProgress: 0,
-//         CourseID: 4
-//     },
-//     {
-//         CourseName: "JavaScript",
-//         CourseImage: "https://miro.medium.com/max/720/1*Aih9FwHjvM6AEL1aBh6W2g.png",
-//         IsTakingCourse: true,
-//         CourseProgress: 0,
-//         CourseID: 5
-//     },
-//     {
-//         CourseName: "C++ Fundamentals",
-//         CourseImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1200px-ISO_C%2B%2B_Logo.svg.png",
-//         IsTakingCourse: false,
-//         CourseProgress: 0,
-//         CourseID: 6
-//     },
-//     {
-//         CourseName: "HTML",
-//         CourseImage: "https://www.computerhope.com/jargon/h/html-head.jpg",
-//         IsTakingCourse: true,
-//         CourseProgress: 100,
-//         CourseID: 7
-//     },
-//     {
-//         CourseName: "CSS",
-//         CourseImage: "https://www.elegantthemes.com/blog/wp-content/uploads/2021/01/000-Basic-CSS.png",
-//         IsTakingCourse: true,
-//         CourseProgress: 0,
-//         CourseID: 8
-//     },
-// ]
+
 
 const DisplayCourses = props => {
     return props.courses.map(course => {
+
+            /*
+            * TODO: calculate progress := number of user modules completed for a course / total number of modueles for the course
+                - completion is a bestScore >= 75%
+            */
+
             let progress = 10;  // %
             return (
                 <Link to={`course-modules/${course._id}`} className="course-card" style={{ textDecoration: "none" }}>

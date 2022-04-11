@@ -29,7 +29,9 @@ export default function CourseModulesPage() {
 
     const enrollAction = async () => {
         if (userEnrolled()) {
-            await dropCourse(course?._id);
+            let confirmed = window.confirm("Are you sure? You will lose all progress in this course including quiz scores, completion, and baddges.");
+            if (confirmed)
+                await dropCourse(course?._id);
         } else {
             await enrollCourse(course?._id);
         }
@@ -71,8 +73,8 @@ export default function CourseModulesPage() {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button size="small">Enter</Button>
-                                {/* <Button size="small">Edit</Button> */}
+                                <Button size="small">View</Button>
+                                <Button size="small">Take Quiz</Button>
                             </CardActions>
                         </Card>
                     </Grid>
