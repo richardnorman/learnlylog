@@ -1,0 +1,31 @@
+.my-courses-content, .all-courses-content { 
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin-left: 10;
+    overflow-x: auto;
+}
+
+.my-courses-content .course-card {
+    min-width: 250px;
+    max-width: 250px;
+    height: 300px;
+    line-height: 300px;
+}
+
+.all-courses-content > * {
+    width: 250px;
+}
+
+.chat-button {
+    position: absolute !important;
+    right: 40px;
+    bottom: 20px;
+    width: 10% !important;
+}
+
+#all-courses-heading-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
