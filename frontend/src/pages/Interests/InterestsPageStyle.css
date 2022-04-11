@@ -1,0 +1,38 @@
+
+
+.InterestPageHeading {
+
+position: absolute;
+/* width: 199px;
+height: 23px; */
+left: calc(50% - 199px/2 + 0.5px);
+top: 10%;
+
+/* Title (Headline) */
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+/* line-height: 23px; */
+display: flex;
+align-items: center;
+text-align: center;
+letter-spacing: 0.15px;
+
+/* Black/87% */
+
+color: rgba(0, 0, 0, 0.87);
+
+}
+
+.h2container{
+    margin: 100px;
+}
+
+.CardsContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
