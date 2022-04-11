@@ -1,0 +1,26 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "answer": {
+            "bsonType": "string"
+        },
+        "moduleId": {
+            "bsonType": "objectId"
+        },
+        "options": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "prompt": {
+            "bsonType": "string"
+        },
+        "type": {
+            "bsonType": "string"
+        }
+    },
+    "title": "QuizQuestion"
+}
