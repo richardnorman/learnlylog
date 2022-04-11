@@ -1,5 +1,6 @@
 import React from "react";
 import { useWatch } from "./useWatch";
+import * as Realm from "realm-web";
 import { useCollection } from "./useCollection";
 import { useRealmApp } from "../components/RealmApp";
 import { dataSourceName } from "../realm.json";
@@ -8,7 +9,7 @@ import { dataSourceName } from "../realm.json";
 export function useCourseEnrollment() {
     // Set up a list of courses in state
     const realmApp = useRealmApp();
-    const [courses, setCourseEnrollment] = React.useState([]);
+    const [enrollments, setCourseEnrollment] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
     // Get a client object for the todo task collection
@@ -25,6 +26,10 @@ export function useCourseEnrollment() {
             setLoading(false);
         });
     }, [enrollmentCollection]);
+
+    const isEnrolled = (id) => {
+        return enrollments.findIndex(e => String(e.courseId) === String(id) && e._partition == realmApp.currentUser.id) >= 0;
+    }
 
     const dropCourse = async (id) => {
         await enrollmentCollection.deleteOne({ _partition: realmApp.currentUser.id, courseId: id });
@@ -47,9 +52,10 @@ export function useCourseEnrollment() {
 
     return {
         loading,
-        courses,
+        enrollments,
         dropCourse,
-        enrollCourse
+        enrollCourse,
+        isEnrolled
     };
 
 }
