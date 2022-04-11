@@ -1,15 +1,15 @@
 {
-    "collection": "User",
+    "collection": "UserModules",
     "database": "LearnlyLog",
     "roles": [
         {
             "name": "owner",
             "apply_when": {
-                "Id": "%%user.id"
+                "_partition": "%%user.id"
             },
             "fields": {
-                "_id": {},
-                "courses": {}
+                "bestScore": {},
+                "lastAttempt": {}
             },
             "read": true,
             "write": true,
