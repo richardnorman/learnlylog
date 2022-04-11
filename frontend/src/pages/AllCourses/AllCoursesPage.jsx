@@ -31,7 +31,7 @@ const ListOfCourses = props => {
                                 {course.name}
                             </Typography>
                             <Typography color="text.secondary">
-                                #courses #learning #activities
+                               { course.description }
                             </Typography>
                         </CardContent>
                         <IconButton aria-label="add to favorites">

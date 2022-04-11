@@ -21,10 +21,10 @@ const takeQuizButtonStyle = {
 };
 
 
-function TakeQuizButton() {
+function TakeQuizButton(props) {
 
     return (
-        <Link to="/module-quiz">
+        <Link to={`/module-quiz/${props.mId}`}>
             <Fab className="takeQuizButton"
                 size="large"
                 color="primary"
@@ -55,7 +55,7 @@ export default function ModulePage() {
             </div>
             <h3>{module?.description}</h3>
             <p>{module?.content}</p>
-            <TakeQuizButton />
+            <TakeQuizButton mId={module?._id} />
         </Container>
     );
 }

@@ -1,48 +1,27 @@
 import * as React from "react";
+import { useRealmApp } from "../../components/RealmApp";
 import { Button, Container } from '@material-ui/core';
 import './ModuleQuizPage.css';
 import QuestionCard from './QuestionCard';
+import { useParams } from "react-router-dom";
+import { useModules } from "../../hooks/useModules";
+import { useQuizQuestions } from "../../hooks/useQuizQuestion";
+import { useUserModules } from "../../hooks/useUserModules";
 
-let quizQuestions = [
-    {
-        _id: 1,
-        answer: 'b',
-        moduleId: 123,
-        options: ['a', 'b', 'c', 'd'],
-        prompt: 'Here is a module quiz question?',
-        type: 'mc'
-    },
-    {
-        _id: 2,
-        answer: 'd',
-        moduleId: 123,
-        options: ['a', 'b', 'c', 'd'],
-        prompt: 'Here is a module quiz question?',
-        type: 'mc'
-    },
-    {
-        _id: 3,
-        answer: 'short answer',
-        moduleId: 123,
-        options: [''],
-        prompt: 'Here is a ________ quiz question?',
-        type: 'sa'
-    }
-]
 
-let userAnswersArray = [quizQuestions.length];
+let userAnswersArray = [];
 
-const radioChangeHandler = (event) => {
-    let cardID = event.target.value[0];
-    userAnswersArray[cardID] = event.target.value.substring(1, event.target.value.length - 1);
+const radioChangeHandler = (index, event) => {
+    userAnswersArray[index] = event.target.value;
 }
+
 
 const DisplayQuizQuestions = props => {
     return (
         <div className='card-list'>
-            {quizQuestions.map((question, i) => {
+            {props.questions.map((question, i) => {
                 return (
-                    <QuestionCard key={i} cardNumber={i} cardQuestion={question} />
+                    <QuestionCard key={i} cardNumber={i} cardQuestion={question} radioChangeHandler={(e) =>radioChangeHandler(i, e)}/>
                 );
             })}
         </div>
@@ -50,12 +29,41 @@ const DisplayQuizQuestions = props => {
 }
 
 export default function ModuleQuizPage() {
+    const realmApp = useRealmApp();
+    const { modules } = useModules();
+    const { id } = useParams();
+
+    const { makeAttempt } = useUserModules();
+    const { quizQuestions } = useQuizQuestions();
+
+    const [module, setModule] = React.useState();
+
+    React.useEffect(() => {
+        let thisModule = modules.find(m => String(m._id) === id);
+        setModule(thisModule);
+    }, [modules, quizQuestions]);
+
+    const onSubmitQuiz = async () => {
+        let numRight = quizQuestions.reduce((acc, q, i) => q.answer.toLowerCase() == (userAnswersArray[i] ?? "").toLowerCase() ? ++acc : acc, 0)
+        let score = (numRight / quizQuestions.length) * 100;
+        alert(`You scored ${Math.round(score)}%`);
+        const attempt = {
+            moduleId: module._id,
+            score: score 
+        }
+        try {
+            await makeAttempt(attempt);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     return (
         <Container className='quiz-container'>
-            <h1>Module Quiz</h1>
+            <h1>{ module?.name } Quiz</h1>
             <p>You must score 75% or higher to pass.</p>
-            <DisplayQuizQuestions />
-            <Button /*onClick={handler}*/ className='submit-button' variant='contained' size='large' color='primary'>SUBMIT</Button>
+            <DisplayQuizQuestions questions={quizQuestions} />
+            <Button onClick={onSubmitQuiz} className='submit-button' variant='contained' size='large' color='primary'>SUBMIT</Button>
         </Container>
     );
 }

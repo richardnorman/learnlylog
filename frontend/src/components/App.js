@@ -78,7 +78,7 @@ function App() {
           <Route path="/interests" element={<InterestsPage />} />
           <Route path="/learning-log" element={<LearningLogPage />} />
           <Route path="/module/:id" element={<ModulePage />} />
-          <Route path="/module-quiz" element={<ModuleQuizPage />} />
+          <Route path="/module-quiz/:id" element={<ModuleQuizPage />} />
         </Routes>
       ) :
         // sign in/register

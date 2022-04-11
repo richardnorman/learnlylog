@@ -20,12 +20,8 @@ export default function CourseModulesPage() {
     const buttonText = () => userEnrolled() ? "Drop" : "Enroll";
     
     useEffect(() => {
-        console.log(id);
         let thisCourse = courses.find(c => String(c._id) === id);
         setCourse(thisCourse);
-        return () => {
-            
-        }
     }, [courses]);
 
     const enrollAction = async () => {
@@ -48,9 +44,7 @@ export default function CourseModulesPage() {
                     { `${buttonText()} Course` }
                 </Button>
             </Typography>
-            <Typography variant="h5" component="div">
-                Modules
-            </Typography>
+            <p>Objective: { course?.description }</p>
             <hr />
             {/* End hero unit */}
             <Grid container spacing={3}>
@@ -77,7 +71,7 @@ export default function CourseModulesPage() {
                                 <Link to={`/module/${card._id}`}>
                                     <Button size="small">View</Button>
                                 </Link>
-                                <Link to="/module-quiz">
+                                <Link to={`/module-quiz/${card._id}`}>
                                     <Button size="small">Take Quiz</Button>
                                 </Link>
                             </CardActions>

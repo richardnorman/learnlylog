@@ -1,5 +1,5 @@
 import React from "react";
-import { useWatch } from "./useWatch";
+import * as Realm from "realm-web";
 import { useCollection } from "./useCollection";
 import { useRealmApp } from "../components/RealmApp";
 import { dataSourceName } from "../realm.json";
@@ -21,14 +21,44 @@ export function useUserModules() {
     // Fetch all userModules on load and whenever our collection changes (e.g. if the current user changes)
     React.useEffect(() => {
         userModuleCollection.find({}).then((fetchedUserModules) => {
-            setUserModules(fetchedUserModules.filter(m => m._partition === realmApp.currentUser.id));
+            setUserModules(fetchedUserModules);
             setLoading(false);
         });
     }, [userModuleCollection]);
 
+    const makeAttempt = async (attempt) => {
+        let previous = await userModuleCollection.findOne(
+            {
+                _partition: realmApp.currentUser.id,
+                moduleId: attempt.moduleId
+            });
+        if (previous && attempt.score >= previous.bestScore) {
+            return userModuleCollection.updateOne({
+                    _partition: realmApp.currentUser.id,
+                    moduleId: attempt.moduleId
+                },
+                {
+                    bestScore: attempt.score,
+                    lastAttempt: new Date(),
+                    _partition: realmApp.currentUser.id,
+                    moduleId: attempt.moduleId
+                }
+            )
+        } else {
+            return userModuleCollection.insertOne({
+                _id: new Realm.BSON.ObjectID(),
+                _partition: realmApp.currentUser.id,
+                moduleId: attempt.moduleId,
+                bestScore: Math.round(attempt.score),
+                lastAttempt: new Date()
+            });
+        }
+    }
+
     return {
         loading,
-        userModules
+        userModules,
+        makeAttempt
     };
 
 }

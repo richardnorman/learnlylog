@@ -12,13 +12,13 @@ import './QuestionCard.css';
 const QuestionCard = props => {
     const BlueRadio = withStyles({
         root: {
-          color: '#default',
-          '&$checked': {
-            color: '#3f51b5',
-          },
+            color: '#default',
+            '&$checked': {
+                color: '#3f51b5',
+            },
         },
         checked: {},
-      })((props) => <Radio color="default" {...props} />);
+    })((props) => <Radio color="default" {...props} />);
 
     return (
         <Card className='question-card'>
@@ -29,16 +29,16 @@ const QuestionCard = props => {
                 {props.cardQuestion.type == 'mc' ? <RadioGroup onChange={props.radioChangeHandler}>
                     {props.cardQuestion.options.map((answer, i) => {
                         return (
-                            <FormControlLabel 
-                            key={'answer' + i} 
-                            value={ props.cardNumber + ((answer[0] === '*') ? 'Correct' : 'Incorrect') + i } 
-                            control={<BlueRadio />} 
-                            label={answer.replace('*','')} 
+                            <FormControlLabel
+                                key={i}
+                                value={answer}
+                                control={<BlueRadio />}
+                                label={answer.replace('*', '')}
                             />
                         );
-                    })} 
-                    </RadioGroup> :
-                    <TextField id="standard-basic" label="Answer..." variant="standard" />
+                    })}
+                </RadioGroup> :
+                    <TextField id="standard-basic" label="Answer..." variant="standard" onChange={props.radioChangeHandler} />
                 }
             </CardContent>
         </Card>
