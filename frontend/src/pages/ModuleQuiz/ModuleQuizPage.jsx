@@ -3,7 +3,7 @@ import { useRealmApp } from "../../components/RealmApp";
 import { Button, Container } from '@material-ui/core';
 import './ModuleQuizPage.css';
 import QuestionCard from './QuestionCard';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useModules } from "../../hooks/useModules";
 import { useQuizQuestions } from "../../hooks/useQuizQuestion";
 import { useUserModules } from "../../hooks/useUserModules";
@@ -29,9 +29,9 @@ const DisplayQuizQuestions = props => {
 }
 
 export default function ModuleQuizPage() {
-    const realmApp = useRealmApp();
     const { modules } = useModules();
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const { makeAttempt } = useUserModules();
     const { quizQuestions } = useQuizQuestions();
@@ -44,7 +44,7 @@ export default function ModuleQuizPage() {
     }, [modules, quizQuestions]);
 
     const onSubmitQuiz = async () => {
-        let numRight = quizQuestions.reduce((acc, q, i) => q.answer.toLowerCase() == (userAnswersArray[i] ?? "").toLowerCase() ? ++acc : acc, 0)
+        let numRight = quizQuestions.reduce((acc, q, i) => q.answer.toLowerCase() == (userAnswersArray[i] || "").toLowerCase() ? ++acc : acc, 0)
         let score = (numRight / quizQuestions.length) * 100;
         alert(`You scored ${Math.round(score)}%`);
         const attempt = {
@@ -53,6 +53,7 @@ export default function ModuleQuizPage() {
         }
         try {
             await makeAttempt(attempt);
+            navigate(`/course-modules/${module._id}`);
         } catch (e) {
             console.log(e)
         }

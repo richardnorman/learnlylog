@@ -26,6 +26,10 @@ export function useUserModules() {
         });
     }, [userModuleCollection]);
 
+    const getAttempt = (moduleId) => {
+        return userModules.find(a => a._partition === realmApp.currentUser.id && String(a.moduleId) === String(moduleId));
+    }
+
     const makeAttempt = async (attempt) => {
         let previous = await userModuleCollection.findOne(
             {
@@ -58,7 +62,8 @@ export function useUserModules() {
     return {
         loading,
         userModules,
-        makeAttempt
+        makeAttempt,
+        getAttempt
     };
 
 }
