@@ -3,6 +3,7 @@ import { useWatch } from "./useWatch";
 import { useCollection } from "./useCollection";
 import { useRealmApp } from "../components/RealmApp";
 import { dataSourceName } from "../realm.json";
+import { BSON } from "realm-web";
 
 
 export function useModules() {
@@ -26,9 +27,19 @@ export function useModules() {
         });
     }, [moduleCollection]);
 
+    /**
+     * Return a module by id
+     * @param {BSON.ObjectId | string} id The object id of the module 
+     * @returns A Module if found, else undefined
+     */
+    const getModule = (id) => {
+        return modules.find(m => String(m._id) === String(id));
+    }
+
     return {
         loading,
-        modules
+        modules,
+        getModule
     };
 
 }

@@ -31,6 +31,14 @@ export function useCourseEnrollment() {
         return enrollments.findIndex(e => String(e.courseId) === String(id) && e._partition == realmApp.currentUser.id) >= 0;
     }
 
+    /**
+     * Get the current user's enrolled courses
+     * @returns a list of CourseEnrollments for the current user
+     */
+    const getUserEnrollments = () => {
+        return enrollments.filter(e => e._partition === realmApp.currentUser.id);
+    }
+
     const dropCourse = async (id) => {
         await enrollmentCollection.deleteOne({ _partition: realmApp.currentUser.id, courseId: id });
     }
@@ -44,7 +52,7 @@ export function useCourseEnrollment() {
                 startDate: new Date()
             });
           } catch (err) {
-              // already enrolled if dup
+            // already enrolled if dup
             console.error(err);
           }
     }
@@ -55,7 +63,8 @@ export function useCourseEnrollment() {
         enrollments,
         dropCourse,
         enrollCourse,
-        isEnrolled
+        isEnrolled,
+        getUserEnrollments
     };
 
 }

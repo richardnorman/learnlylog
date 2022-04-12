@@ -30,6 +30,14 @@ export function useUserModules() {
         return userModules.find(a => a._partition === realmApp.currentUser.id && String(a.moduleId) === String(moduleId));
     }
 
+    /**
+     * Get all module completion attempts for the currently signed in user
+     * @returns A list of UserModules
+     */
+    const getUserAttempts = () => {
+        return userModules.filter(m => m._partition === realmApp.currentUser.id);
+    }
+
     const makeAttempt = async (attempt) => {
         let previous = await userModuleCollection.findOne(
             {
@@ -63,6 +71,7 @@ export function useUserModules() {
         loading,
         userModules,
         makeAttempt,
+        getUserAttempts,
         getAttempt
     };
 

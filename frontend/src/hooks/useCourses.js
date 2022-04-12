@@ -3,6 +3,7 @@ import { useWatch } from "./useWatch";
 import { useCollection } from "./useCollection";
 import { useRealmApp } from "../components/RealmApp";
 import { dataSourceName } from "../realm.json";
+import { BSON } from "realm-web";
 
 
 export function useCourses() {
@@ -27,10 +28,19 @@ export function useCourses() {
     }, [courseCollection]);
 
     
+    /**
+     * Get a course by ID
+     * @param {BSON.ObjectId} id THe id of the course you are looking for
+     * @returns The course if found, else undefined
+     */
+    const getCourse = (id) => {
+        return courses.find(c => String(c._id) === String(id));
+    }
 
     return {
         loading,
-        courses
+        courses,
+        getCourse
     };
 
 }
