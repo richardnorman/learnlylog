@@ -50,7 +50,7 @@ const ModuleCard = (props) => {
                     <Button size="small" variant="contained" color="primary">View</Button>
                 </Link>
                 <Link to={`/module-quiz/${props.module._id}`}>
-                    <Button size="small" variant="contained" color="primary">{props.attempt?.bestScore >= 75 ? "Retake" : "Take"} Quiz</Button>
+                    <Button size="small" variant="contained" color="primary">{props.attempt ? "Retake" : "Take"} Quiz</Button>
                 </Link>
             </CardActions>
         </Card>
@@ -59,20 +59,20 @@ const ModuleCard = (props) => {
 
 export default function CourseModulesPage() {
 
-    const { loading, modules } = useModules();
+    const { modulesLoading, modules } = useModules();
     const { isEnrolled, enrollCourse, dropCourse } = useCourseEnrollment();
     const { userModules, getAttempt } = useUserModules();
     const { coursesLoading, courses } = useCourses();
     const [course, setCourse] = useState(null);
-    const [completed, setCompleted] = useState();
     const { id } = useParams();
 
     const userEnrolled = () => course ? isEnrolled(course._id) : false;
     const buttonText = () => userEnrolled() ? "Drop" : "Enroll";
 
     useEffect(() => {
-        let thisCourse = courses.find(c => String(c._id) === id);
+        let thisCourse = courses.find(c => String(c._id) == id);
         setCourse(thisCourse);
+        console.log(course)
     }, [courses, modules, userModules]);
 
     const enrollAction = async () => {
@@ -86,7 +86,7 @@ export default function CourseModulesPage() {
         window.location.reload();   // too lazy to update the ui
     }
 
-    return (
+    return modulesLoading && coursesLoading ? null : (
         <Container className="main-container" maxWidth="md">
 
             <Typography variant="h2" component="div">
@@ -99,7 +99,7 @@ export default function CourseModulesPage() {
             <hr />
             {/* End hero unit */}
             <Grid container spacing={3}>
-                {modules.map((module, i) => {
+                {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
                     let attempt = getAttempt(module._id);
                     if (!attempt || attempt.bestScore < 75) {
                         return (
@@ -115,7 +115,7 @@ export default function CourseModulesPage() {
                 Completed
             </Typography>
             <Grid container spacing={3}>
-                {modules.map((module, i) => {
+                {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
                     let attempt = getAttempt(module._id);
                     if (attempt && attempt.bestScore >= 75) {
                         return (
@@ -127,8 +127,6 @@ export default function CourseModulesPage() {
                 })}
             </Grid>
         </Container>
-
-
 
     );
 

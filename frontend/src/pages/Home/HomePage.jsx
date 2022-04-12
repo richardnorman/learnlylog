@@ -12,18 +12,25 @@ import { Link } from "react-router-dom";
 import { useCourses } from "../../hooks/useCourses";
 import './HomePage.css';
 import { useCourseEnrollment } from '../../hooks/useCourseEnrollment';
+import { useModules } from '../../hooks/useModules';
+import { useUserModules } from '../../hooks/useUserModules';
 
 
 
 const DisplayCourses = props => {
+
+    const { modules } = useModules();
+    const { getAttempt } = useUserModules();
+
     return props.courses.map(course => {
 
-            /*
-            * TODO: calculate progress := number of user modules completed for a course / total number of modueles for the course
-                - completion is a bestScore >= 75%
-            */
+            let progress = 0;  // %
+            if (props.isEnrolled) {
+                let cModules = modules.filter(m => String(m.courseId) === String(course._id));
+                let attempts = cModules.map(m => getAttempt(m._id));    // get attempts for each module, if any
+                progress = Math.round((attempts.filter(a => a && a.bestScore >= 75).length / cModules.length) * 100);
+            }
 
-            let progress = 10;  // %
             return (
                 <Link to={`course-modules/${course._id}`} className="course-card" style={{ textDecoration: "none" }}>
                     <Card style={{ height: 250, margin: 5 }} sx={{ maxWidth: 250 }}>

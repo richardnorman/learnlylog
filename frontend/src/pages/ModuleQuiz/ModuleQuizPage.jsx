@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { useRealmApp } from "../../components/RealmApp";
 import { Button, Container } from '@material-ui/core';
 import './ModuleQuizPage.css';
@@ -36,16 +36,18 @@ export default function ModuleQuizPage() {
     const { makeAttempt } = useUserModules();
     const { quizQuestions } = useQuizQuestions();
 
-    const [module, setModule] = React.useState();
+    const [module, setModule] = useState();
 
-    React.useEffect(() => {
+    const moduleQuestions = () => quizQuestions.filter(q => String(q.moduleId) === String(module?._id));
+
+    useEffect(() => {
         let thisModule = modules.find(m => String(m._id) === id);
         setModule(thisModule);
     }, [modules, quizQuestions]);
 
     const onSubmitQuiz = async () => {
-        let numRight = quizQuestions.reduce((acc, q, i) => q.answer.toLowerCase() == (userAnswersArray[i] || "").toLowerCase() ? ++acc : acc, 0)
-        let score = (numRight / quizQuestions.length) * 100;
+        let numRight = moduleQuestions().reduce((acc, q, i) => q.answer.toLowerCase() == (userAnswersArray[i] || "").toLowerCase() ? ++acc : acc, 0);
+        let score = (numRight / moduleQuestions().length) * 100;
         alert(`You scored ${Math.round(score)}%`);
         const attempt = {
             moduleId: module._id,
@@ -53,7 +55,7 @@ export default function ModuleQuizPage() {
         }
         try {
             await makeAttempt(attempt);
-            navigate(`/course-modules/${module._id}`);
+            navigate(`/course-modules/${module.courseId}`);
         } catch (e) {
             console.log(e)
         }
@@ -63,7 +65,7 @@ export default function ModuleQuizPage() {
         <Container className='quiz-container'>
             <h1>{ module?.name } Quiz</h1>
             <p>You must score 75% or higher to pass.</p>
-            <DisplayQuizQuestions questions={quizQuestions} />
+            <DisplayQuizQuestions questions={moduleQuestions()} />
             <Button onClick={onSubmitQuiz} className='submit-button' variant='contained' size='large' color='primary'>SUBMIT</Button>
         </Container>
     );
