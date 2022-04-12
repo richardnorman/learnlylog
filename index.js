@@ -18,7 +18,7 @@ const { Server, Socket } = require("socket.io");
 const io = new Server(server);
 const path = require('path');
 
-const port = process.env.NODE_ENV == 'production' ? 80 : 3000;
+const port = 80;
 
 app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
