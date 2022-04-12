@@ -15,9 +15,11 @@ import { useRealmApp } from "./RealmApp";
 import { MoreInfoTemplateAndDocs } from "./MoreInfo";
 import { toggleBoolean } from "../utils";
 import { useErrorAlert } from "../hooks/useErrorAlert";
+import { useNavigate } from "react-router-dom";
 
 export function WelcomePage() {
   const realmApp = useRealmApp();
+  const navigate = useNavigate();
   // Track whether the user is logging in or signing up for a new account
   const [isSignup, setIsSignup] = React.useState(false);
   const toggleIsSignup = () => {
@@ -47,6 +49,7 @@ export function WelcomePage() {
     try {
       if (isSignup) {
         await realmApp.emailPasswordAuth.registerUser(email, password);
+        navigate("/interests");
       }
       await realmApp.logIn(Realm.Credentials.emailPassword(email, password));
     } catch (err) {
