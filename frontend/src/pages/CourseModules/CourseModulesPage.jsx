@@ -68,6 +68,11 @@ export default function CourseModulesPage() {
 
     const userEnrolled = () => course ? isEnrolled(course._id) : false;
     const buttonText = () => userEnrolled() ? "Drop" : "Enroll";
+    const courseModules = () => modules.filter(m => String(m.courseId) === String(course?._id));
+    const completeModules = () => courseModules().filter(m => {
+        let attempt = getAttempt(m._id);
+        return attempt && attempt.bestScore >= 75;
+    });
 
     useEffect(() => {
         let thisCourse = courses.find(c => String(c._id) == id);
@@ -76,7 +81,7 @@ export default function CourseModulesPage() {
 
     const enrollAction = async () => {
         if (userEnrolled()) {
-            let confirmed = window.confirm("Are you sure? You will lose all progress in this course including quiz scores, completion, and baddges.");
+            let confirmed = window.confirm("Are you sure? You will lose all progress in this course including quiz scores, completion, and badges.");
             if (confirmed)
                 await dropCourse(course?._id);
         } else {
@@ -102,7 +107,7 @@ export default function CourseModulesPage() {
                 <hr />
                 {/* End hero unit */}
                 <Grid container spacing={3}>
-                    {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
+                    {courseModules().map((module, i) => {
                         let attempt = getAttempt(module._id);
                         if (!attempt || attempt.bestScore < 75) {
                             return (
@@ -113,22 +118,32 @@ export default function CourseModulesPage() {
                         }
                     })}
                 </Grid>
-                <hr />
-                <Typography variant="h5" component="div">
-                    Completed
-                </Typography>
-                <Grid container spacing={3}>
-                    {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
-                        let attempt = getAttempt(module._id);
-                        if (attempt && attempt.bestScore >= 75) {
-                            return (
-                                <Grid item key={i} xs={12} sm={6} md={4}>
-                                    <ModuleCard course={course} module={module} attempt={attempt} />
+
+                <div>
+                    {
+                        completeModules().length > 0 ?
+                            <div>
+                                <hr />
+                                <Typography variant="h5" component="div">
+                                    Completed
+                                </Typography>
+                                <Grid container spacing={3}>
+                                    {completeModules().map((module, i) =>
+
+
+                                        <Grid item key={i} xs={12} sm={6} md={4}>
+                                            <ModuleCard course={course} module={module} attempt={getAttempt(module._id)} />
+                                        </Grid>
+
+
+                                    )}
                                 </Grid>
-                            )
-                        }
-                    })}
-                </Grid>
+                            </div>
+                            : null
+                    }
+                </div>
+
+
             </Container>
 
         );
