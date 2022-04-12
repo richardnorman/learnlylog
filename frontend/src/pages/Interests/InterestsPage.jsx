@@ -3,13 +3,10 @@ import "./InterestsPageStyle.css";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-//from '@material-ui/icons';
-//import Typography from '@material-ui/core/Typography';
+import { Fab } from "@material-ui/core";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { CardActionArea, Container } from '@material-ui/core';
-//import PropTypes from 'prop-types';
-//import LinearProgress from '@material-ui/core/LinearProgress';
-//import Box from '@material-ui/core/Box';
-//import Fab from '@material-ui/core/Fab';
+
 
 
 let interests = [
@@ -36,27 +33,72 @@ let interests = [
     {
         InterestName: "Web Development",
         InterestImage: "https://cdn-icons.flaticon.com/png/512/2828/premium/2828990.png?token=exp=1649667287~hmac=c2dcf80fb43923c3c9c0f5e267c38889"
+    },
+    {
+        InterestName: "Theatre",
+        InterestImage: "https://cdn-icons.flaticon.com/png/512/1655/premium/1655698.png?token=exp=1649745314~hmac=db134a3b1eb2a37f00855c331572df38"
+    }
+    ,
+    {
+        InterestName: "Fitness",
+        InterestImage: "https://cdn-icons.flaticon.com/png/512/2974/premium/2974977.png?token=exp=1649745383~hmac=817fb495b17e293307faf741e820dc4b"
     }
 ]
 
+function InterestCard(props) {
+    const { name, image, add, remove } = props
+
+    const [isSelected, setIsSelected] = React.useState(false)
+
+    function test() {
+
+        if (isSelected) {
+            setIsSelected(false)
+            remove(name)
+        }
+        else {
+            setIsSelected(true)
+            add(name)
+        }
+    }
+
+    return (
+        <Card onClick={test} style={{ height: 240, margin: 5, width: 200, backgroundColor: isSelected ? "green" : '#F1F3F4' }} variant="outlined">
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    height="180"
+                    image={image}
+                />
+                <CardContent
+                    height="50"
+                >
+                    <p style={{ textAlign: 'center' }}>{name}</p>
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    );
+}
+
 function DisplayAllCards() {
+    let userInterests = []
+
+    function addInterest(name) {
+        userInterests.push(name)
+        console.log(userInterests);
+
+    }
+
+    function removeInterest(name) {
+        userInterests = userInterests.filter(e => e !== name);
+        console.log(userInterests);
+    }
+
+
     return (
         interests.map(element => {
             return (
-                <Card style={{ height: 240, margin: 5, width: 200, backgroundColor: '#F1F3F4' }} variant="outlined">
-                    <CardActionArea>
-                        <CardMedia
-                            component="img"
-                            height="180"
-                            image={element.InterestImage}
-                        />
-                        <CardContent
-                            height="50"
-                        >
-                            <p style={{ textAlign: 'center' }}>{element.InterestName}</p>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
+                <InterestCard name={element.InterestName} image={element.InterestImage} add={addInterest} remove={removeInterest} />
             )
         }
 
@@ -64,7 +106,38 @@ function DisplayAllCards() {
     );
 }
 
+const nextButtonStyle = {
+    borderRadius: 50,
+    padding :25,
+    margin: 30,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+};
 
+
+function NextButton() {
+
+    const navigate = useNavigate();
+
+    const redirect = () => {
+    navigate('/Home/HomePage.jsx')
+    }
+
+    return (
+        <Fab className="nextButton" 
+            size="large"
+            color="primary"
+            variant="contained"
+            style={nextButtonStyle}
+            onClick={redirect}
+            >
+            Next
+        </Fab>
+    );
+};
 
 export default function InterestsPage() {
     return (
@@ -75,6 +148,7 @@ export default function InterestsPage() {
             <div className="CardsContainer">
                 <DisplayAllCards />
             </div>
+            <NextButton/>
         </nav>
 
     );

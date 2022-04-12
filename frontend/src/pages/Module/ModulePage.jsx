@@ -54,10 +54,7 @@ function ModulePageContent(){
 };
 
 
-// function Testing() {
-//     //let display =content1.properties.content;
-//     return <h1>test</h1>;
-// }
+
 const takeQuizButtonStyle = {
     borderRadius: 50,
     padding :25,
@@ -103,4 +100,3 @@ export default function ModulePage() {
     );
 }
 
-// ReactDOM.render(<ModulePage />, document.getElementById("root") )
