@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useCourses } from "../../hooks/useCourses";
 import { useModules } from "../../hooks/useModules";
-import { Card, Grid, Typography, Container, CardMedia, CardContent, Button, CardActions, CardHeader, Avatar } from "@material-ui/core";
+import { Card, Grid, Typography, Container, CardMedia, CardContent, Button, CardActions, CardHeader, Avatar, CircularProgress } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./CourseModulesPage.css";
@@ -28,7 +28,7 @@ const ModuleCard = (props) => {
             <CardHeader
                 avatar={
                     <Avatar style={{ backgroundColor: getAvatarColor(props.attempt?.bestScore) }} aria-label="attempt">
-                        <Typography variant="caption" display="block" style={{color: grey[900]}}>{props.attempt ? `${props.attempt.bestScore}%` : "N/A"}</Typography>
+                        <Typography variant="caption" display="block" style={{ color: grey[900] }}>{props.attempt ? `${props.attempt.bestScore}%` : "N/A"}</Typography>
                     </Avatar>
                 }
                 title={props.module.name}
@@ -59,10 +59,10 @@ const ModuleCard = (props) => {
 
 export default function CourseModulesPage() {
 
-    const { modulesLoading, modules } = useModules();
+    const { modulesLoading, modules, loading } = useModules();
     const { isEnrolled, enrollCourse, dropCourse } = useCourseEnrollment();
     const { userModules, getAttempt } = useUserModules();
-    const { coursesLoading, courses } = useCourses();
+    const { courses } = useCourses();
     const [course, setCourse] = useState(null);
     const { id } = useParams();
 
@@ -72,7 +72,6 @@ export default function CourseModulesPage() {
     useEffect(() => {
         let thisCourse = courses.find(c => String(c._id) == id);
         setCourse(thisCourse);
-        console.log(course)
     }, [courses, modules, userModules]);
 
     const enrollAction = async () => {
@@ -86,48 +85,52 @@ export default function CourseModulesPage() {
         window.location.reload();   // too lazy to update the ui
     }
 
-    return modulesLoading && coursesLoading ? null : (
-        <Container className="main-container" maxWidth="md">
+    return loading ?
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress style={{ marginTop: "10%" }} />
+        </div>
+        : (
+            <Container className="main-container" maxWidth="md">
 
-            <Typography variant="h2" component="div">
-                {course?.name}
-                <Button onClick={enrollAction} className="enrollment-btn" variant="outlined" color={userEnrolled() ? "secondary" : "primary"}>
-                    {`${buttonText()} Course`}
-                </Button>
-            </Typography>
-            <p>Objective: {course?.description}</p>
-            <hr />
-            {/* End hero unit */}
-            <Grid container spacing={3}>
-                {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
-                    let attempt = getAttempt(module._id);
-                    if (!attempt || attempt.bestScore < 75) {
-                        return (
-                            <Grid item key={i} xs={12} sm={6} md={4}>
-                                <ModuleCard course={course} module={module} attempt={attempt} />
-                            </Grid>
-                        )
-                    } 
-                })}
-            </Grid>
-            <hr />
-            <Typography variant="h5" component="div">
-                Completed
-            </Typography>
-            <Grid container spacing={3}>
-                {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
-                    let attempt = getAttempt(module._id);
-                    if (attempt && attempt.bestScore >= 75) {
-                        return (
-                            <Grid item key={i} xs={12} sm={6} md={4}>
-                                <ModuleCard course={course} module={module} attempt={attempt} />
-                            </Grid>
-                        )
-                    } 
-                })}
-            </Grid>
-        </Container>
+                <Typography variant="h2" component="div">
+                    {course?.name}
+                    <Button onClick={enrollAction} className="enrollment-btn" variant="outlined" color={userEnrolled() ? "secondary" : "primary"}>
+                        {`${buttonText()} Course`}
+                    </Button>
+                </Typography>
+                <p>Objective: {course?.description}</p>
+                <hr />
+                {/* End hero unit */}
+                <Grid container spacing={3}>
+                    {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
+                        let attempt = getAttempt(module._id);
+                        if (!attempt || attempt.bestScore < 75) {
+                            return (
+                                <Grid item key={i} xs={12} sm={6} md={4}>
+                                    <ModuleCard course={course} module={module} attempt={attempt} />
+                                </Grid>
+                            )
+                        }
+                    })}
+                </Grid>
+                <hr />
+                <Typography variant="h5" component="div">
+                    Completed
+                </Typography>
+                <Grid container spacing={3}>
+                    {modules.filter(m => String(m.courseId) === String(course?._id)).map((module, i) => {
+                        let attempt = getAttempt(module._id);
+                        if (attempt && attempt.bestScore >= 75) {
+                            return (
+                                <Grid item key={i} xs={12} sm={6} md={4}>
+                                    <ModuleCard course={course} module={module} attempt={attempt} />
+                                </Grid>
+                            )
+                        }
+                    })}
+                </Grid>
+            </Container>
 
-    );
+        );
 
 }

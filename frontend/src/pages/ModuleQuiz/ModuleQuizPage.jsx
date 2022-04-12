@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRealmApp } from "../../components/RealmApp";
-import { Button, Container } from '@material-ui/core';
+import { Button, Container, CircularProgress } from '@material-ui/core';
 import './ModuleQuizPage.css';
 import QuestionCard from './QuestionCard';
 import { useNavigate, useParams } from "react-router-dom";
@@ -21,7 +21,7 @@ const DisplayQuizQuestions = props => {
         <div className='card-list'>
             {props.questions.map((question, i) => {
                 return (
-                    <QuestionCard key={i} cardNumber={i} cardQuestion={question} radioChangeHandler={(e) =>radioChangeHandler(i, e)}/>
+                    <QuestionCard key={i} cardNumber={i} cardQuestion={question} radioChangeHandler={(e) => radioChangeHandler(i, e)} />
                 );
             })}
         </div>
@@ -34,7 +34,7 @@ export default function ModuleQuizPage() {
     const navigate = useNavigate();
 
     const { makeAttempt } = useUserModules();
-    const { quizQuestions } = useQuizQuestions();
+    const { quizQuestions, loading } = useQuizQuestions();
 
     const [module, setModule] = useState();
 
@@ -51,7 +51,7 @@ export default function ModuleQuizPage() {
         alert(`You scored ${Math.round(score)}%`);
         const attempt = {
             moduleId: module._id,
-            score: score 
+            score: score
         }
         try {
             await makeAttempt(attempt);
@@ -61,12 +61,16 @@ export default function ModuleQuizPage() {
         }
     }
 
-    return (
-        <Container className='quiz-container'>
-            <h1>{ module?.name } Quiz</h1>
-            <p>You must score 75% or higher to pass.</p>
-            <DisplayQuizQuestions questions={moduleQuestions()} />
-            <Button onClick={onSubmitQuiz} className='submit-button' variant='contained' size='large' color='primary'>SUBMIT</Button>
-        </Container>
-    );
+    return loading ?
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress style={{ marginTop: "10%" }} />
+        </div>
+        : (
+            <Container className='quiz-container'>
+                <h1>{module?.name} Quiz</h1>
+                <p>You must score 75% or higher to pass.</p>
+                <DisplayQuizQuestions questions={moduleQuestions()} />
+                <Button onClick={onSubmitQuiz} className='submit-button' variant='contained' size='large' color='primary'>SUBMIT</Button>
+            </Container>
+        );
 }
