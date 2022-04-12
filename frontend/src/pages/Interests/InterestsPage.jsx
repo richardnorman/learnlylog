@@ -5,18 +5,20 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { Fab } from "@material-ui/core";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import { CardActionArea, Container } from '@material-ui/core';
+import { CardActionArea, Container, Grid, Typography } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
+
 
 
 
 let interests = [
     {
         InterestName: "Technology",
-        InterestImage: "https://cdn-icons.flaticon.com/png/512/4365/premium/4365271.png?token=exp=1649655256~hmac=7b55893d58520ddea02e5632d9ec4a48"
+        InterestImage: "https://cdn-icons-png.flaticon.com/512/490/490498.png"
     },
     {
         InterestName: "UX/UI",
-        InterestImage: "https://cdn-icons.flaticon.com/png/512/1367/premium/1367672.png?token=exp=1649667176~hmac=ff499f00476b20b001d4fd429dc58f86"
+        InterestImage: "https://cdn-icons-png.flaticon.com/512/1055/1055666.png"
     },
     {
         InterestName: "Game Design",
@@ -32,16 +34,16 @@ let interests = [
     },
     {
         InterestName: "Web Development",
-        InterestImage: "https://cdn-icons.flaticon.com/png/512/2828/premium/2828990.png?token=exp=1649667287~hmac=c2dcf80fb43923c3c9c0f5e267c38889"
+        InterestImage: "https://cdn-icons-png.flaticon.com/512/977/977597.png"
     },
     {
         InterestName: "Theatre",
-        InterestImage: "https://cdn-icons.flaticon.com/png/512/1655/premium/1655698.png?token=exp=1649745314~hmac=db134a3b1eb2a37f00855c331572df38"
+        InterestImage: "https://cdn-icons-png.flaticon.com/512/1778/1778557.png"
     }
     ,
     {
         InterestName: "Fitness",
-        InterestImage: "https://cdn-icons.flaticon.com/png/512/2974/premium/2974977.png?token=exp=1649745383~hmac=817fb495b17e293307faf741e820dc4b"
+        InterestImage: "https://cdn-icons-png.flaticon.com/512/1719/1719714.png"
     }
 ]
 
@@ -63,20 +65,22 @@ function InterestCard(props) {
     }
 
     return (
-        <Card onClick={test} style={{ height: 240, margin: 5, width: 200, backgroundColor: isSelected ? "green" : '#F1F3F4' }} variant="outlined">
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    height="180"
-                    image={image}
-                />
-                <CardContent
-                    height="50"
-                >
-                    <p style={{ textAlign: 'center' }}>{name}</p>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <Grid item key={props.name} xs={12} sm={4} md={3}>                          
+            <Card onClick={test} style={{ backgroundColor: isSelected ? purple[200] : '#F1F3F4' }} variant="outlined">
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        height="180"
+                        image={image}
+                    />
+                    <CardContent
+                        height="50"
+                    >
+                        <p style={{ textAlign: 'center' }}>{name}</p>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </Grid>
     );
 }
 
@@ -108,7 +112,7 @@ function DisplayAllCards() {
 
 const nextButtonStyle = {
     borderRadius: 50,
-    padding :25,
+    padding: 25,
     margin: 30,
     top: 'auto',
     right: 20,
@@ -123,17 +127,17 @@ function NextButton() {
     const navigate = useNavigate();
 
     const redirect = () => {
-    navigate('/Home/HomePage.jsx')
+        navigate("/")
     }
 
     return (
-        <Fab className="nextButton" 
+        <Fab className="nextButton"
             size="large"
             color="primary"
             variant="contained"
             style={nextButtonStyle}
             onClick={redirect}
-            >
+        >
             Next
         </Fab>
     );
@@ -141,15 +145,17 @@ function NextButton() {
 
 export default function InterestsPage() {
     return (
-        <nav>
-            <div className="h2container">
-                <h1 className="InterestPageHeading"> Choose your interests</h1>
+        <Container className="main-container" maxWidth="md">
+            <div style={{ textAlign: "center"}}>
+                <Typography variant="h3" gutterBottom component="div">
+                    Choose your interests
+                </Typography>
             </div>
-            <div className="CardsContainer">
+            <Grid container spacing={3}>
                 <DisplayAllCards />
-            </div>
-            <NextButton/>
-        </nav>
+            </Grid>
+            <NextButton />
+        </Container>
 
     );
 }
