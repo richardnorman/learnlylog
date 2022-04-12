@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "build": "cd frontend && npm run build"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +13,8 @@
   "dependencies": {
     "express": "^4.17.3",
     "socket.io": "^4.4.1"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
