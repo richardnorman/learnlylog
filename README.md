@@ -3,6 +3,8 @@ A simple learning management system that allows users to track their progress an
 
 [Try out LearnlyLog here!](https://learnly-log.herokuapp.com/)
 
+[Demo Video](https://drive.google.com/file/d/11I_NzCipyWJUYmjHKbndcA_JEBhnmjIo/view?usp=sharing)
+
 ## Development
 ```
 cd frontend
